@@ -28,8 +28,6 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  SeanTater
 
 # Build settings
-#theme: minima
-theme: texture
 texture:
   title: Today I learned
   tagline: Software engineering for data science; a blog of optimization and hacks
@@ -37,7 +35,6 @@ texture:
   style: red
 
   social_links:
-    #twitter: thelehhman
     github:  SeanTater
     linkedIn: in/SeanTater # format: locale/username
 

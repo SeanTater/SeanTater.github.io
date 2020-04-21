@@ -81,6 +81,7 @@ The backend is centered on a single class and it's methods. Yours will be differ
 probably have the same _send, assign, and route methods:
 
 ```py
+# app.py
 class Router:
     def __init__(self, ws):
         ...
@@ -104,6 +105,7 @@ The entry point of the application just starts an endless event loop reading and
 websocket. It uses a small lambda wrapper around Router to kick off each connection.
 
 ```py
+# app.py
 if __name__ == "__main__":
     start_server = websockets.serve(lambda ws, _path: Router(ws).route(), "0.0.0.0", 8001)
     asyncio.get_event_loop().run_until_complete(start_server)
@@ -114,6 +116,7 @@ Once that's the messages are passed to the router, which along with some excepti
 calls the method named by "tag" in the incoming message.
 
 ```py
+# app.py
 tag = message.pop("tag") # Remove and use the tag
 await getattr(self, tag, lambda **_x: print("Route not found:", x))(**message)
 ```
@@ -122,6 +125,7 @@ In response, we can send any messages we want, multiple or 0 and all different t
 We even draw progressbars this way; quite convenient!
 
 ```py
+# app.py
 # Compute a * x + y and send a message names "assign" to set a key "result_vector" in the browser
 await self._send(tag="assign", key="result_vector", value=[a * xi + yi for xi, yi in zip(x, y)])
 ```
@@ -133,6 +137,7 @@ is naturally `index.html` but it quickly passes the buck to `index.js`, which pr
 the entire document body with the output of the App function near the bottom:
 
 ```js
+// index.js
 const App = () => {
     const [session, publish] = openSession();
 
@@ -150,30 +155,16 @@ render(html`<${App} />`, document.body)
 
 When we opened a session in App(), we
 did several things:
-* We opened a new websocket connecting to the backend
-* We set up a reducer, which will handle all incoming messages, similar to the entire Router class
-  * In most cases the frontend reducer shouldn't be super complex compared with the UI components
-    anyway, so it tends not to be that big of a problem. YMMV.
-  * The reducer can decide whether to forward messages to the backend websocket
-* We received the latest copy of that state as of the time App() was (re)rendered
-* We received a function we can use to send messages to the reducer, which may forward them
-
-`openSession()` is idempotent, so feel free to call it repeatedly, as it is doing now any time
-the App component gets refreshed.
-
 ```js
-// Connect
+// session.js
+// We opened a new websocket connecting to the backend
 const SOCKET = new WebSocket(`ws://${window.location.hostname}:8001/ws`)
-
-// This is how your state starts on the browser end of the session
-const EMPTY = { name: "", result_vector: [] }
-
-// Use contexts to propagate state through the app
-// createContext allows us to use <${Session.Provider}>, which will cascade the context,
-// and then useContext() in each component will allow us to take advantage of it
-const Session = createContext(EMPTY)
-
-// This decides the application logic
+```
+```js
+// session.js
+// We set up a reducer, which will handle all incoming messages, similar to the entire Router class
+// In most cases the frontend reducer shouldn't be super complex compared with the UI components
+// anyway, so it tends not to be that big of a problem. YMMV.
 const reducer = (state, action) => {
     switch (action.tag) {
         case "assign": return {...state, [action.key]: action.value}
@@ -183,6 +174,7 @@ const reducer = (state, action) => {
         // to the server and some not. This is important to prevent loops, so keep that in mind.
         case "axpy":
         case "any other messages you want..":
+            // This line forwards anything back to the server
             SOCKET.send(JSON.stringify(action));
             return state;
         
@@ -190,11 +182,41 @@ const reducer = (state, action) => {
         default: return state
     }
 }
+```
+```js
+// index.js
+const App = () => {
+    // "session" is the current state of the frontend,
+    // and "publish" is a callback to sends a messages to the reducer,
+    // and in turn only the reducer can change "session"
+    const [session, publish] = openSession();
 
-const openSession = () => {
-    const [session, publish] = useReducer(reducer, EMPTY)
-    SOCKET.onmessage = ev => publish(JSON.parse(ev.data))
-    // See the github repo for how to handle errors
-    return [session, publish]
+    // Session.Provider passes both values down the tree of components
+    return html`
+        <${Session.Provider} value=${[session, publish]}>
+            <${TrivialComponent} />
+            <${BasicSessionComponent} />
+        <//>
+    `
 }
 ```
+
+Lastly, we need to actually use the new values that the backend gave us in our final component:
+```js
+// index.js
+const BasicSessionComponent = () => {
+    // Retrieve the receiver, sender pair broadcast by the Provider
+    const [session, publish] = useContext(Session)
+
+    // Some parts were left out for clarity. Get the full code from the repo.
+    return html`
+        <article class="card">
+            <header> Multiply Vectors </header>
+            <p> Compute a * x + y </p>
+            <button onClick=${publish({tag: "axpy", a, x, y})}> Run Calculation! </button>
+            <p>Result: ${session.result_vector.join(" ")}</p>
+        </article>`
+}
+```
+
+And that's it! You have an interactive websocket app!
