@@ -40,10 +40,13 @@ texture:
     #twitter: thelehhman
     github:  SeanTater
     linkedIn: in/SeanTater # format: locale/username
+
 show_excerpts: true
 plugins:
   - jekyll-feed
 
+jekyll-diagrams:
+  error_mode: 'mode'
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

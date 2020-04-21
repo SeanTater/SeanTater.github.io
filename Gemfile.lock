@@ -29,6 +29,8 @@ GEM
       rouge (~> 3.0)
       safe_yaml (~> 1.0)
       terminal-table (~> 1.8)
+    jekyll-diagrams (0.10.0)
+      jekyll (>= 3.8, < 5.0)
     jekyll-feed (0.13.0)
       jekyll (>= 3.7, < 5.0)
     jekyll-sass-converter (2.1.0)
@@ -73,6 +75,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll (~> 4.0.0)
+  jekyll-diagrams
   jekyll-feed (~> 0.12)
   texture
   tzinfo (~> 1.2)
