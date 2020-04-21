@@ -4,11 +4,3 @@
 
 layout: home
 ---
-
-## by category
-
-### linux
-### databases (esp. SQLite)
-### rust
-
-## by time
