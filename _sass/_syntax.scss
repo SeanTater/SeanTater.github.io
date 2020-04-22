@@ -1,18 +1,13 @@
 @import 'ext/default-highlight';
 
-div.highlighter-rouge {
+// Full-page-width blocks
+div.highlighter-rouge, .post-container table {
 	width: 100vw;
 	position: relative;
 	right: 150px;
 	margin: 40px 0;
-}
-
-.highlight {
-	background-color: #f4f4f4;
-}
-
-div.highlight {
 	padding: 30px 150px;
+	background-color: #f4f4f4;
 	box-shadow: 0 0 5px lightgrey;
 }
 

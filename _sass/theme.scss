@@ -262,3 +262,13 @@ blockquote {
     font-style: italic;
     color: #444;
 }
+
+// Remove spacing in tables but keep them in the cells
+table {
+	// Don't border collapse, so that we can format the padding
+    // border-collapse: collapse;
+	border-spacing: 0;
+	td, th {
+		padding: 0.1em 1em;
+	}
+}

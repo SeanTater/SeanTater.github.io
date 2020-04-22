@@ -2,7 +2,7 @@
 layout: post
 title:  "Cross compiling Rust Linux Musl binaries on Mac OSX"
 date:   2020-04-21 10:23:44 -0400
-categories: rust linux
+categories: rust
 ---
 Thanks to
 [a brew package by FiloSuttile](https://github.com/FiloSottile/homebrew-musl-cross), and 
