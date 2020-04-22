@@ -108,8 +108,9 @@ SELECT * FROM DBC.Columns;
 ```
 
 I'll save you the Google search. A [popular forum thread][1] that leads Google search results for
-"Teradata column data types" explains the meanings of the `ColumnType` column. You can interpret
-the codes using this lookup:
+"Teradata column data types" explains the meanings of the `ColumnType` column. You can find further
+details on these types in [Teradata's official documentation][2], and you can interpret the codes
+to one of those names using this lookup:
 
 Code  | Long Format
 ------|------------
@@ -168,3 +169,4 @@ SELECT TOP 1 type(column_name) FROM table_name;
 Hope this helps!
 
 [1]: https://downloads.teradata.com/forum/database/list-of-all-teradata-column-types-with-their-associated-dbtypes
+[2]: https://docs.teradata.com/reader/iRq_F~XxKYWu7Kv~HRd~ew/D_RBrANpKte9E5uvWjq8~Q
