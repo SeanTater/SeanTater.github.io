@@ -1,14 +1,20 @@
 @import 'ext/default-highlight';
 
 // Full-page-width blocks
-div.highlighter-rouge, .post-container table {
+div.highlighter-rouge, table-wrap {
+	display: block;
 	width: 100vw;
 	position: relative;
-	right: 150px;
-	margin: 40px 0;
-	padding: 30px 150px;
+	right: 10vw;
+	margin: 2em 0;
+	padding: 2vw;
 	background-color: #f4f4f4;
 	box-shadow: 0 0 5px lightgrey;
+	overflow-x: scroll;
+}
+
+table-wrap table {
+	width: 100%;
 }
 
 pre.highlight, code {

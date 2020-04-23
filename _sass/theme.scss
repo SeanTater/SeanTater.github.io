@@ -4,11 +4,6 @@
 @import 'syntax';
 
 $linkColor: #999;
-$mobileW: 768px;
-$smallMobileW: 480px;
-$bigScreenW: 1600px;
-$leftWidth: 220px;
-
 $gray: #999;
 $lightGray: #eee;
 
@@ -60,8 +55,7 @@ figcaption {
 }
 
 header {
-	// background-size: cover;
-	padding: 120px 0;
+	padding: 120px 10vw;
 	color: #fff;
 	overflow: hidden;
 	h2 {
@@ -101,53 +95,9 @@ header {
 //
 // Basic Container Class
 //
-.container {
-	margin:0 150px;
+main {
+	margin: 0 10vw;
 	max-width: 720px;
-
-	div.highlighter-rouge {
-		right: 150px;
-	}
-
-	@media screen and  (max-width: $mobileWidth) {
-		margin:0 15px; 
-		div.highlighter-rouge {
-			right: 15px;
-		}
-		div.highlight {
-			padding: 30px 15px;
-		}
-	}
-
-	@media screen and (max-width: $tabWidth) and (min-width: $mobileWidth){
-		margin:0 40px;	
-		div.highlighter-rouge {
-			right: 40px;
-		}
-		div.highlight {
-			padding: 30px 40px;
-		}
-	}
-
-	@media screen and (max-width: $desktopWidth) and (min-width: $tabWidth){
-		margin:0 80px;
-		div.highlighter-rouge {
-			right: 80px;
-		}
-		div.highlight {
-			padding: 30px 80px;
-		}
-	}
-
-	@media screen and (min-width: $desktopWidth) and (max-width: 1280px) {
-		margin:0 100px;
-		div.highlighter-rouge {
-			right: 100px;
-		}
-		div.highlight {
-			padding: 30px 100px;
-		}
-	}
 }
 
 .post-title {

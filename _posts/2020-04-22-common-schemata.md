@@ -20,6 +20,8 @@ For Hive, you can get a list of column names and types using:
 ```
 and the results for the final one (which lists only one table) will look like the following:
 
+<table-wrap markdown="block">
+
 | col_name     | data_type | comment                |
 | ------------ | --------- | ---------------------- |
 |entry_id      |int        | Unique ID              |
@@ -27,6 +29,8 @@ and the results for the final one (which lists only one table) will look like th
 |product_id    |string     | Foreign key to Product |
 |item_id       |int        | Foreign key to Item    |
 |vendor_id     |int        | Not sure..             |
+
+</table-wrap>
 
 There's also `DESCRIBE FORMATTED`, which gives you a lot of information about each table, but in a
 challenging to parse format intended for human consumption.
@@ -53,6 +57,8 @@ In contrast, you can easily get most of what you normally need from a `pragma`:
 PRAGMA table_info(sqlite_master);
 ```
 
+<table-wrap markdown="block">
+
 cid        | name      | type     | notnull   | dflt_value | pk        
 ---------- |-----------|----------|---------- |----------  |----------
 0          |type       |text      |0          |            | 0         
@@ -61,6 +67,7 @@ cid        | name      | type     | notnull   | dflt_value | pk
 3          |rootpage   |int       |0          |            | 0         
 4          |sql        |text      |0          |            | 0         
 
+</table-wrap>
 
 ## Phoenix
 Similar to SQLite, there are multiple ways to get schemata. If you use `sqlline` or something of a
@@ -112,6 +119,8 @@ I'll save you the Google search. A [popular forum thread][1] that leads Google s
 details on these types in [Teradata's official documentation][2], and you can interpret the codes
 to one of those names using this lookup:
 
+<table-wrap markdown="block">
+
 Code  | Long Format
 ------|------------
 A1    | ARRAY 
@@ -156,6 +165,8 @@ XM    | XML
 YM    | INTERVAL YEAR TO MONTH
 YR    | INTERVAL YEAR 
 ++    | TD_ANYTYPE
+
+</table-wrap>
 
 But even then, you can't get column types for views, and where I work, views are very popular.
 Hopefully you don't need it too often, but in a pinch, you can still always `SELECT`.
