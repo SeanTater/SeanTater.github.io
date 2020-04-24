@@ -2,7 +2,7 @@
 layout: post
 title:  "Finding data types in SQLite, Teradata, Hive, and Phoenix"
 date:   2020-04-22 10:23:44 -0400
-categories: short
+categories: database
 ---
 
 Quick reference for finding types for your DESCRIBE.
