@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Parallelism in NDArray
-date:   2021-08-06 13:23:00 -0400
+date:   2021-08-06 15:00:00 -0400
 categories: rust
 ---
 
@@ -53,5 +53,6 @@ fn main() {
     println!("Sum of primes: {}", sum_of_primes);
 }
 ```
+
 
 [work stealing]: https://en.wikipedia.org/wiki/Work_stealing
