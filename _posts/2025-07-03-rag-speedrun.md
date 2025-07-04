@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  RAG Speedrun: Local LLMs and Sentence Transformers
+title:  "RAG Speedrun: Local LLMs and Sentence Transformers"
 date:   2025-07-03 20:36:07 -0400
 categories: python llm rag
 ---
