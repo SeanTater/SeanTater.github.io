@@ -21,12 +21,19 @@ At its heart, a RAG system involves three main stages:
 
 ## Setting Up Your Environment
 
-To follow along with this speedrun, you'll need Python installed. We'll use two main dependencies:
+To follow along with this speedrun, the only things you'll need to install are [uv][https://docs.astral.sh/uv/] and Ollama.
 
-1.  **`sentence-transformers`**: For generating text embeddings.
+1.  **UV** will install your python dependencies, and if needed, even Python itself. Namely, we'll be using:
+    1. **`sentence-transformers`**: For generating text embeddings, which will pull in a few of its own dependencies, including notably `torch`.
+       [Torch][https://pytorch.org/] is the library used for most deep learning projects in Python these days.
+    2. **`openai`**: For connecting to LLM servers and APIs. Even though it was written by OpenAI, most LLM services are compatible, including local ones.
+       In this case, we'll be using ollama, which is the easiest to use and install, even though `vllm` and others are usually faster.
+    3. You won't need to install anything yourself, as long as you run the resulting script with UV, like so:
+
     ```bash
-    pip install sentence-transformers openai
+    uv run the-script.py
     ```
+
 2.  **Ollama**: For running a local Large Language Model. Ollama makes it incredibly easy to download and run various open-source LLMs on your machine.
     *   Download and install Ollama from their official website: [https://ollama.com/](https://ollama.com/)
     *   Once installed, you can download a model. For this example, we'll use `qwen3:4b`, which has shown good performance for these types of questions:
