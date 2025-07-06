@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "RAG Speedrun: Persistent Indexing with Polars and Parquet"
-date:   2025-07-06 20:36:07 -0400
+date:   2025-07-06 10:36:07 -0400
 categories: python llm rag unstructured pdf parquet
 ---
 
