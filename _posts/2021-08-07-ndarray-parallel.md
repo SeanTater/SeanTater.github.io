@@ -21,6 +21,16 @@ and `rayon` is the place to start with that in Rust. Rayon and NDArray go hand i
 many of the most compute intensive tasks involve large contigious arrays of numbers, but it's far
 from the only way to use Rayon. We might cover other ways in other articles later.
 
+Start with Rayon by installing it. We'll also install a few other things we'll use here.
+
+```toml
+# Cargo.toml
+[dependencies]
+rayon = "1.5"
+rand = "0.8"
+ndarray = { version = "0.15", features = ["rayon"] }
+```
+
 ## Basic flavor of Rayon
 We already talked about NDArray in another article here. Instead, we'll start with Rayon.
 Rayon is a work-stealing queue, with some convenient wrappers around iterators to make creating
@@ -45,14 +55,46 @@ granularoty of scheduling and overhead.
 
 ```rs
 use rayon::prelude::*;
-fn main() {
-    let sum_of_primes = (2..100000i64)
-        .into_par_iter()
-        .map(|i| if (2..i).into_iter().any(|j| i % j == 0) {0} else {i})
-        .sum::<i64>();
-    println!("Sum of primes: {}", sum_of_primes);
-}
+let sum_of_primes = (2..100000i64)
+    .into_par_iter()
+    .map(|i| if (2..i).into_iter().any(|j| i % j == 0) {0} else {i})
+    .sum::<i64>();
+println!("Sum of primes: {}", sum_of_primes);
 ```
 
+## Rayon applied to NDArray
+You can see how Rayon makes a lot of sense for an iterator, but it gets more interesting if you
+can combine it with arrays of all shapes and sizes (bit of a pun there).
+Let's take one of the examples we used from before in the NDArray article and see if we can
+combine it with Rayon to find the sum of squared error between a reference and an image at every
+offset. (Essentially, convolution.)
+
+```rs
+// The kernel is a freebie, it's too tiny to bother.
+let target = Array::from_shape_fn((10, 10), |_| rand::random::<f32>());
+
+// Allocating zeros on Linux is so close to free it doesn't matter
+// I am not certain other operating systems do the same
+let mut image = Array::zeros((1000, 1000));
+// We fill it in a second step.
+image.par_mapv_inplace(|_| rand::random::<f32>());
+```
+
+```rs
+let mut target = Array::from_shape_fn((10, 10), |_| rand::random::<f32>());
+target /= target.iter().map(|x| x*x).sum(); // Normalize to a unit vector
+let image = Array::from_shape_fn((1000, 1000), |_| rand::random::<f32>());
+
+let mut sims = Array::zeros((991, 991));
+par_azip!((window in image.windows(target.shape()), sim in &mut sims) {
+    let mut win_vec_magn = 1e-10; // Prevent division by zero
+    let mut sim_vec_magn = 0.0;
+    azip!((w in window, t in target) {
+        win_vec_magn += w * w;
+        sim_vec_magn += w * t;
+    });
+    *sim = sim_vec_magn / win_vec_magn;
+});
+```
 
 [work stealing]: https://en.wikipedia.org/wiki/Work_stealing
