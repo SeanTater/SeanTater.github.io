@@ -19,12 +19,7 @@ PDFs are notorious for being difficult to parse programmatically. They often con
 
 To follow along, you'll need `uv` and Ollama, as in the previous post. Additionally, we'll add `unstructured` and its PDF-specific dependencies.
 
-1.  **UV** will install your Python dependencies. We'll be adding:
-    1.  **`unstructured`**: The core library for document parsing.
-    2.  **`unstructured-inference`**: Provides the inference capabilities for `unstructured`, often including dependencies for image processing (like `Pillow`) and OCR (like `layoutparser` and `detectron2`).
-    3.  **`pdfminer.six`**: A pure Python PDF parser that `unstructured` can leverage for text extraction from PDFs.
-    4.  **`python-magic`**: Used by `unstructured` to detect file types.
-    5.  **`lxml`**: A fast XML/HTML parser, used by `unstructured` for certain document types.
+1.  **UV** will install your Python dependencies. We'll be adding **`unstructured`**, a library for document parsing, often used in machine learning apps.
 
     The script below includes an updated `uv` stanza to automatically install these new dependencies.
 
@@ -48,7 +43,6 @@ First, we add `pathlib` for file system operations and `argparse` to accept the 
 #     "sentence-transformers",
 #     "torch",
 #     "unstructured[pdf]", # Includes pdfminer.six, python-magic, lxml
-#     "unstructured-inference", # For layoutparser, detectron2, etc.
 # ]
 #
 # # The following section uses the CPU version of pytorch by default, since it is smaller and more portable,
@@ -153,8 +147,7 @@ Here is the complete Python script. Save it as `rag_unstructured_pdfs.py` (or an
 #     "openai",
 #     "sentence-transformers",
 #     "torch",
-#     "unstructured[pdf]", # Includes pdfminer.six, python-magic, lxml
-#     "unstructured-inference", # For layoutparser, detectron2, etc.
+#     "unstructured[pdf]", # Includes pdfminer.six, python-magic, lxml, etc
 # ]
 #
 # # The following section uses the CPU version of pytorch by default, since it is smaller and more portable,
@@ -311,13 +304,8 @@ if __name__ == "__main__":
     ```
     Replace `my_pdfs/` with the actual path to your directory containing PDFs, and provide your desired queries.
 
-## Conclusion
+## What's next
 
-You've successfully extended your RAG system to ingest knowledge from unstructured PDF documents using `unstructured` and to accept dynamic queries via the command line. This significantly broadens the applicability of your RAG pipeline, allowing it to leverage information from a vast array of real-world data sources and respond to user-defined questions.
+If you actually ran the script above (rather than just reading the post like we all know you did!), you'd notice this system is slow as molasses. In my case, it takes nearly thirty minutes to build the index each time. It parses all the PDFs, with OCR, on every run. This is obviously not how you would want to do this in a production environment, or even just for a second run. We'll cover that, with about the simplest imaginable implementation, in the next post.
 
-Key takeaways from this extension:
-*   **`unstructured` simplifies PDF parsing**: It handles complex layouts and extracts clean text, making PDFs usable for RAG.
-*   **Dynamic document loading**: Your RAG system can now adapt to new documents by simply adding them to a directory.
-*   **CLI arguments for flexibility**: Accepting a directory path and queries as arguments makes the script reusable and easy to integrate into workflows.
 
-This is a crucial step towards building more robust and versatile RAG applications that can truly unlock the knowledge hidden in your document archives.
