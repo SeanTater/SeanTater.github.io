@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "RAG Speedrun: Local LLMs and Unstructured PDF Ingestion"
-date:   2025-07-04 20:36:07 -0400
+date:   2025-07-04 21:36:07 -0400
 categories: python llm rag unstructured pdf
 ---
 
