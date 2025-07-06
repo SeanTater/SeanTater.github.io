@@ -24,7 +24,7 @@ This loop will continue for a maximum of 5 iterations to prevent infinite loops,
 
 Here's a high-level flow:
 
-```mermaid
+<code class="mermaid">
 graph TD
     A[Start: User Query] --> B{Initialize Conversation};
     B --> C{Loop up to 5 times};
@@ -37,7 +37,7 @@ graph TD
     H --> I[End];
     C -- Max iterations reached / No tool call --> J[Fail: No final answer];
     J --> I;
-```
+</code>
 
 ## Code Segments
 
